@@ -6,6 +6,8 @@
     "dockerComposeFile": "docker-compose.yml", 
     "service": "backend",
     "workspaceFolder": "/app",
+    "forwardPorts": [8000],
+    "shutdownAction": "stopCompose",
     
     // 開発環境コンテナに必要なツールや設定
     "customizations": {
