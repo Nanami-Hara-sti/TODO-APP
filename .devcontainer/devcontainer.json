@@ -2,12 +2,11 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
 	// "name": "Python 3",
-	"name": "Todo App Development",
-    "dockerComposeFile": "../docker-compose.yml", // docker-compose.yml への相対パス
-    "service": "devcontainer", // Docker Compose ファイル内で定義する開発環境用のサービス名 (後述)
-    "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-    "shutdownAction": "stopCompose", // Dev Container 停止時に Docker Compose も停止する
-
+	"name": "TODO-APP Development",
+    "dockerComposeFile": "docker-compose.yml", 
+    "service": "backend",
+    "workspaceFolder": "/app",
+    
     // 開発環境コンテナに必要なツールや設定
     "customizations": {
         "vscode": {
@@ -17,14 +16,5 @@
                 "esbenp.prettier-vscode"
             ]
         }
-    },
-    "features": {
-        "ghcr.io/devcontainers/features/node:1": {}, // Node.js をインストール (frontend 開発用)
-        "ghcr.io/devcontainers/features/python:1": {}  // Python をインストール (backend 開発用)
-    },
-    // コンテナ起動後に実行するコマンド
-    "postCreateCommand": "sudo chown -R vscode:vscode . && docker-compose up -d backend frontend", // コンテナ起動後、backend と frontend サービスを起動
-    // ポートフォワーディングの設定 (必要に応じて)
-    "forwardPorts": [3000, 8000], // frontend (React) のポートと backend (FastAPI) のポート
-    "remoteUser": "vscode"
+    }
 }

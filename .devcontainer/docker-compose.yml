@@ -1,0 +1,40 @@
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: .devcontainer/backend/Dockerfile
+    command: ["wait-for-it.sh", "db:3306", "--", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    volumes:
+      - ../backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=mysql+pymysql://root:your_root_password@db:3306/todo_db
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: .devcontainer/frontend/Dockerfile
+    command: npm start
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules
+    ports:
+      - "3001:3000"
+    depends_on:
+      - backend
+
+  db:
+    image: mysql:8.0
+    ports:
+      - "3307:3306" # ホスト側は3307を使用
+    environment:
+      - MYSQL_ROOT_PASSWORD=your_root_password
+      - MYSQL_DATABASE=todo_db
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

@@ -1,5 +1,10 @@
 fastapi
 uvicorn[standard]
+
+mysql-connector-python
 SQLAlchemy[mysqlclient]
+
 pymysql
 pydantic
+
+python-dotenv

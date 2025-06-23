@@ -25,17 +25,14 @@ function App() {
     setApiResponse(null);
     setError(null);
 
-    // Streamlitのコードに合わせて、フロントエンドでデータを生成
-    // 注意: 本来、IDや日時はバックエンドで生成するのが一般的です。（後述）
     const current_time = new Date().toISOString();
     const data = {
-      // 実際にはDBで自動採番されるべきですが、元のコードの動作を再現
-      id: Math.floor(Math.random() * 1000) + 1,
+      // id: Math.floor(Math.random() * 1000) + 1,
       title: title,
       description: description,
       status: status,
-      created_at: current_time,
-      updated_at: current_time
+      // created_at: current_time,
+      // updated_at: current_time
     };
 
     try {
