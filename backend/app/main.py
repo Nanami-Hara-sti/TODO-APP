@@ -1,13 +1,11 @@
 import datetime as DateTime
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
-from fastapi import Depends
-# import schemas
-# import crud
 from app.database import SessionLocal, engine, get_db
+import schemas
+# import crud
 
 
 class todos(BaseModel):
@@ -39,42 +37,42 @@ id_counter = 0
 def create_item(db: Session = Depends(get_db)):
     # 関数の内容も、エラーにならないように一時的に単純化する
     return {"message": "This endpoint is temporarily disabled."}
-# @app.post("/todos", response_model=schemas.Todo)
-# def create_todo(todo: schemas.TodoCreate):
-#     """
-#     新しいTodoアイテムを作成します。
+@app.post("/todos", response_model=schemas.Todo)
+def create_todo(todo: schemas.TodoCreate):
+    """
+    新しいTodoアイテムを作成します。
 
-#     - Request Body: `schemas.TodoCreate` に基づいてバリデーションされます。
-#     - Response Body: `schemas.Todo` に基づいてフォーマットされます。
-#     """
-#     global id_counter
+    - Request Body: `schemas.TodoCreate` に基づいてバリデーションされます。
+    - Response Body: `schemas.Todo` に基づいてフォーマットされます。
+    """
+    global id_counter
     
-#     # IDと日時をサーバー側で生成
-#     id_counter += 1
-#     current_time = datetime.datetime.now()
+    # IDと日時をサーバー側で生成
+    id_counter += 1
+    current_time = DateTime.datetime.now()
 
-#     # レスポンス用のデータモデルを作成
-#     new_todo = schemas.Todo(
-#         id=id_counter,
-#         title=todo.title,
-#         description=todo.description,
-#         status=todo.status,
-#         created_at=current_time,
-#         updated_at=current_time,
-#     )
+    # レスポンス用のデータモデルを作成
+    new_todo = schemas.Todo(
+        id=id_counter,
+        title=todo.title,
+        description=todo.description,
+        status=todo.status,
+        created_at=current_time,
+        updated_at=current_time,
+    )
 
-#     # 簡易DBに追加
-#     fake_db.append(new_todo)
+    # 簡易DBに追加
+    fake_db.append(new_todo)
     
-#     # 作成したTodoを返す
-#     return new_todo
+    # 作成したTodoを返す
+    return new_todo
 
-# @app.get("/todos", response_model=list[schemas.Todo])
-# def read_todos():
-#     """
-#     すべてのTodoアイテムを取得します。
-#     """
-#     return fake_db
+@app.get("/todos", response_model=list[schemas.Todo])
+def read_todos():
+    """
+    すべてのTodoアイテムを取得します。
+    """
+    return fake_db
 
 @app.get("/")
 async def index():

@@ -10,6 +10,9 @@
     "shutdownAction": "stopCompose",
     
     // 開発環境コンテナに必要なツールや設定
+    "features": {
+    "ghcr.io/devcontainers/features/github-copilot-cli:1": {}
+    },
     "customizations": {
         "vscode": {
             "extensions": [
