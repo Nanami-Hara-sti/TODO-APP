@@ -1,11 +1,9 @@
 import datetime as DateTime
-from fastapi import FastAPI, Depends
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
-from sqlalchemy.orm import Session
-from app.database import SessionLocal, engine, get_db
+import crud
 import schemas
-# import crud
 
 
 class todos(BaseModel):
@@ -24,60 +22,84 @@ origins = ["http://localhost:3000"]
 # CORSミドルウェアを追加
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,       # 許可するオリジン
-    allow_credentials=True,      # クッキーを許可するか
-    allow_methods=["*"],         # 全てのHTTPメソッドを許可
-    allow_headers=["*"],         # 全てのHTTPヘッダーを許可
+    allow_origins=origins,       
+    allow_credentials=True,      
+    allow_methods=["*"],         
+    allow_headers=["*"],         
 )
 
-fake_db = []
-id_counter = 0
+class TodoBase(BaseModel):
+    title: str = Field(..., max_length=255, example="タイトル")
+    description: str = Field(None, max_length=1000, example="詳細")
+    status: str = Field("未着手", max_length=20, example="ステータス")
 
-@app.post("/items/") # ← response_modelを削除
-def create_item(db: Session = Depends(get_db)):
-    # 関数の内容も、エラーにならないように一時的に単純化する
-    return {"message": "This endpoint is temporarily disabled."}
-@app.post("/todos", response_model=schemas.Todo)
-def create_todo(todo: schemas.TodoCreate):
-    """
-    新しいTodoアイテムを作成します。
+class TodoCreate(TodoBase):
+    pass
 
-    - Request Body: `schemas.TodoCreate` に基づいてバリデーションされます。
-    - Response Body: `schemas.Todo` に基づいてフォーマットされます。
-    """
-    global id_counter
-    
-    # IDと日時をサーバー側で生成
-    id_counter += 1
-    current_time = DateTime.datetime.now()
-
-    # レスポンス用のデータモデルを作成
-    new_todo = schemas.Todo(
-        id=id_counter,
-        title=todo.title,
-        description=todo.description,
-        status=todo.status,
-        created_at=current_time,
-        updated_at=current_time,
-    )
-
-    # 簡易DBに追加
-    fake_db.append(new_todo)
-    
-    # 作成したTodoを返す
-    return new_todo
-
-@app.get("/todos", response_model=list[schemas.Todo])
-def read_todos():
-    """
-    すべてのTodoアイテムを取得します。
-    """
-    return fake_db
+class Todo(TodoBase):
+    id: int
+    created_at: DateTime.datetime
+    updated_at: DateTime.datetime
 
 @app.get("/")
 async def index():
     return {"message": "Welcome to the Todo API"}
 
-@app.post("/todos")
-async def create_todo(todos: todos):
-    return {"todos": [todos]}
+fake_db = []
+id_counter = 0
+
+# Create
+@app.post("/todos", response_model=Todo)
+def create_todo(todo: TodoCreate):
+    global id_counter
+    id_counter += 1
+    now = DateTime.datetime.now()
+    new_todo = Todo(
+        id=id_counter,
+        title=todo.title,
+        description=todo.description,
+        status=todo.status,
+        created_at=now,
+        updated_at=now,
+    )
+    fake_db.append(new_todo)
+    return new_todo
+
+# Read All
+@app.get("/todos", response_model=list[Todo])
+def read_todos():
+    return fake_db
+
+# Read One
+@app.get("/todos/{todo_id}", response_model=Todo)
+def read_todo(todo_id: int):
+    for todo in fake_db:
+        if todo.id == todo_id:
+            return todo
+    raise HTTPException(status_code=404, detail="Todo not found")
+
+# Update
+@app.put("/todos/{todo_id}", response_model=Todo)
+def update_todo(todo_id: int, todo: TodoCreate):
+    for idx, t in enumerate(fake_db):
+        if t.id == todo_id:
+            updated_todo = Todo(
+                id=todo_id,
+                title=todo.title,
+                description=todo.description,
+                status=todo.status,
+                created_at=t.created_at,
+                updated_at=DateTime.datetime.now(),
+            )
+            fake_db[idx] = updated_todo
+            return updated_todo
+    raise HTTPException(status_code=404, detail="Todo not found")
+
+# Delete
+@app.delete("/todos/{todo_id}", response_model=dict)
+def delete_todo(todo_id: int):
+    for idx, t in enumerate(fake_db):
+        if t.id == todo_id:
+            del fake_db[idx]
+            return {"result": "success"}
+    raise HTTPException(status_code=404, detail="Todo not found")
