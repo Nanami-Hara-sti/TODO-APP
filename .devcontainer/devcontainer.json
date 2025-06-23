@@ -3,16 +3,13 @@
 {
 	// "name": "Python 3",
 	"name": "TODO-APP Development",
-    "dockerComposeFile": "docker-compose.yml", 
+    "dockerComposeFile": "./docker-compose.yml", 
     "service": "backend",
     "workspaceFolder": "/app",
     "forwardPorts": [8000],
     "shutdownAction": "stopCompose",
     
     // 開発環境コンテナに必要なツールや設定
-    "features": {
-    "ghcr.io/devcontainers/features/github-copilot-cli:1": {}
-    },
     "customizations": {
         "vscode": {
             "extensions": [

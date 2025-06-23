@@ -2,7 +2,7 @@ services:
   backend:
     build:
       context: ..
-      dockerfile: .devcontainer/backend/Dockerfile
+      dockerfile: backend/Dockerfile
     command: ["wait-for-it.sh", "db:3306", "--", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
     volumes:
       - ../backend:/app
@@ -16,11 +16,10 @@ services:
   frontend:
     build:
       context: ..
-      dockerfile: .devcontainer/frontend/Dockerfile
+      dockerfile: frontend/Dockerfile
     command: npm start
     volumes:
       - ../frontend:/app
-      - /app/node_modules
     ports:
       - "3001:3000"
     depends_on:
