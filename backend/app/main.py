@@ -3,9 +3,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy.orm import Session
+from fastapi import Depends
 # import schemas
 # import crud
-from database import SessionLocal, engine
+from app.database import SessionLocal, engine, get_db
+
 
 class todos(BaseModel):
     id: int = Field(..., example="TodoのID")
@@ -17,7 +20,7 @@ class todos(BaseModel):
 
 app = FastAPI()
 
-# CORSを許可するオリジン（Reactアプリが動作するURL）のリスト
+# CORSを許可するオリジン（Reactアプリが動作するURL)
 origins = ["http://localhost:3000"]
 
 # CORSミドルウェアを追加
@@ -33,7 +36,7 @@ fake_db = []
 id_counter = 0
 
 @app.post("/items/") # ← response_modelを削除
-def create_item(db: Session = Depends(get_db)): # ← item引数を削除
+def create_item(db: Session = Depends(get_db)):
     # 関数の内容も、エラーにならないように一時的に単純化する
     return {"message": "This endpoint is temporarily disabled."}
 # @app.post("/todos", response_model=schemas.Todo)
@@ -66,17 +69,17 @@ def create_item(db: Session = Depends(get_db)): # ← item引数を削除
 #     # 作成したTodoを返す
 #     return new_todo
 
-@app.get("/todos", response_model=list[schemas.Todo])
-def read_todos():
-    """
-    すべてのTodoアイテムを取得します。
-    """
-    return fake_db
+# @app.get("/todos", response_model=list[schemas.Todo])
+# def read_todos():
+#     """
+#     すべてのTodoアイテムを取得します。
+#     """
+#     return fake_db
 
-# @app.get("/")
-# async def index():
-#     return {"message": "Welcome to the Todo API"}
+@app.get("/")
+async def index():
+    return {"message": "Welcome to the Todo API"}
 
-# @app.post("/todos")
-# async def create_todo(todos: todos):
-#     return {"todos": [todos]}
+@app.post("/todos")
+async def create_todo(todos: todos):
+    return {"todos": [todos]}
