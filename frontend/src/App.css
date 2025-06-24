@@ -1,106 +1,186 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f4f7f9;
+  color: #333;
+  margin: 0;
+}
+
 .App {
-  text-align: center;
-  max-width: 600px;
-  margin: 2rem auto;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-family: sans-serif;
-}
-
-
-form div {
-  margin-bottom: 1rem;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-textarea, select {
-  width: 100%;
-  padding: 0.5rem;
-  box-sizing: border-box; /* paddingを含めてwidth 100%にする */
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-textarea {
-  min-height: 80px;
-}
-
-button {
-  padding: 0.75rem 1.5rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-button:disabled {
-  background-color: #aaa;
-  cursor: not-allowed;
-}
-
-.response-area {
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eee;
-}
-
-.response-area pre {
-  background-color: #f4f4f4;
-  padding: 1rem;
-  border-radius: 4px;
-  white-space: pre-wrap; /* 長い行を折り返す */
-  word-wrap: break-word;
-}
-
-.error pre {
-  color: #d8000c;
-  background-color: #ffbaba;
-}
-
-.success pre {
-  color: #270;
-  background-color: #dff2bf;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  text-align: center;
+  margin-bottom: 40px;
+  color: #2c3e50;
+}
+
+main > div {
+    background-color: #ffffff;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+}
+
+h2 {
+    margin-top: 0;
+    border-bottom: 2px solid #e0e0e0;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    color: #34495e;
+}
+
+/* Form Styles */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Important */
+  font-size: 1rem;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #3498db;
   color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.App-link {
-  color: #61dafb;
+button:hover {
+  background-color: #2980b9;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+button:disabled {
+  background-color: #bdc3c7;
+  cursor: not-allowed;
+}
+
+/* API Response Area */
+.response-area {
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 5px;
+  word-wrap: break-word;
+  background-color: #ecf0f1;
+}
+
+.response-area pre {
+  background-color: #dcdde1;
+  padding: 10px;
+  border-radius: 4px;
+  white-space: pre-wrap;
+}
+
+.response-area .error {
+  color: #c0392b;
+  border: 1px solid #c0392b;
+  padding: 10px;
+}
+
+.response-area .success {
+    color: #27ae60;
+    border: 1px solid #27ae60;
+    padding: 10px;
+}
+
+/* Todo List */
+.todo-list-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+
+.todo-item:last-child {
+  border-bottom: none;
+}
+
+.todo-item.editing {
+    flex-direction: column;
+    align-items: stretch;
+}
+
+.todo-item.editing input,
+.todo-item.editing textarea,
+.todo-item.editing select {
+    margin-bottom: 10px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.todo-content {
+  flex-grow: 1;
+}
+
+.todo-content h3 {
+  margin: 0 0 5px 0;
+  font-size: 1.1rem;
+}
+.todo-content h3 span {
+    font-size: 0.9rem;
+    font-weight: normal;
+    color: #7f8c8d;
+}
+
+.todo-content p {
+  margin: 0;
+  color: #555;
+  white-space: pre-wrap;
+}
+
+.todo-actions button {
+  margin-left: 10px;
+}
+
+button.delete {
+  background-color: #e74c3c;
+}
+button.delete:hover {
+  background-color: #c0392b;
+}
+button.save {
+    background-color: #2ecc71;
+}
+button.save:hover {
+    background-color: #27ae60;
+}
+button.cancel {
+    background-color: #95a5a6;
+}
+button.cancel:hover {
+    background-color: #7f8c8d;
 }
