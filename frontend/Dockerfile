@@ -1,5 +1,5 @@
 FROM node:18-alpine
-WORKDIR /app
+WORKDIR /workspace/frontend
 
 # package.jsonとlockファイルを先にコピー
 COPY frontend/package*.json ./
