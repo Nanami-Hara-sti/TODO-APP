@@ -1,0 +1,8 @@
+{
+  "name": "Node Container",
+  "dockerComposeFile": ["../../docker-compose.yml"],
+  "service": "frontend",
+  "workspaceFolder": "/workspace/frontend",
+  "forwardPorts": [3000],
+  "shutdownAction": "none"
+}

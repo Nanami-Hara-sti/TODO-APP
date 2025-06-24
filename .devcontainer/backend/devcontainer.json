@@ -1,11 +1,11 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
-	// "name": "Python 3",
-	"name": "TODO-APP Development",
-    "dockerComposeFile": "./docker-compose.yml", 
+	"name": "Python Container",
+	// "name": "TODO-APP Development",
+    "dockerComposeFile": "../../docker-compose.yml", 
     "service": "backend",
-    "workspaceFolder": "/app",
+    "workspaceFolder": "/workspace/backend",
     "forwardPorts": [8000],
     "shutdownAction": "stopCompose",
     
