@@ -1,6 +1,6 @@
 import datetime as DateTime
 from typing import List, Optional
-from .schemas import TodoCreate, Todo, TodoUpdate
+from schemas import TodoCreate, Todo, TodoUpdate
 
 # メモリ上のDB（本来はDB操作を記述）
 fake_db: List[Todo] = []

@@ -4,16 +4,16 @@ from typing import Optional
 
 class TodoBase(BaseModel):
     title: str
-    description: str | None = None  
+    description: Optional[str] = None  
     status: str = "未着手"
 
 class TodoCreate(TodoBase):
     pass  
 
 class TodoUpdate(BaseModel):
-    title: str | None = None
-    description: str | None = None
-    status: str | None = None
+    title: Optional[str] = None
+    description: Optional[str] = None
+    status: Optional[str] = None
 
 class Todo(TodoBase):
     id: int

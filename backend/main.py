@@ -4,7 +4,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 import crud
 import schemas
+from sqlalchemy.orm import Session
+from sql_app.database import engine, get_db
+from sql_app import models as sql_models
 
+sql_models.Base.metadata.create_all(bind=engine)
+
+app = FastAPI()
 
 class todos(BaseModel):
     id: int = Field(..., example="TodoのID")
@@ -14,10 +20,11 @@ class todos(BaseModel):
     created_at: DateTime.datetime = Field(..., example="作成日時")
     updated_at: DateTime.datetime = Field(..., example="更新日時")
 
-app = FastAPI()
-
 # CORSを許可するオリジン（Reactアプリが動作するURL)
-origins = ["http://localhost:3000"]
+origins = [
+    "http://localhost:3000",
+    "http://localhost:3001"
+]
 
 # CORSミドルウェアを追加
 app.add_middleware(

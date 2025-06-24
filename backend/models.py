@@ -1,7 +1,8 @@
 # SQLAlchemy
 from sqlalchemy import Column, Integer, String, Text, DateTime
 from sqlalchemy.sql import func
-from ..sql_app.database import Base
+from sql_app.database import Base
+
 
 class Todo(Base):
     __tablename__ = "todos"
