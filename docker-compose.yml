@@ -21,7 +21,7 @@ services:
     volumes:
       - ./frontend:/workspace/frontend
     ports:
-      - "3001:3000"
+      - "3001:3001"
     depends_on:
       - backend
 
@@ -31,7 +31,7 @@ services:
       - "3307:3306" # ホスト側は3307を使用
     environment:
       - MYSQL_ROOT_PASSWORD=your_root_password
-      - MYSQL_DATABASE=todo_db
+      - MYSQL_DATABASE=sql_app_db
     volumes:
       - db_data:/var/lib/mysql
 

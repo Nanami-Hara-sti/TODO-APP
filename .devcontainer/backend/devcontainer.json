@@ -1,15 +1,17 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/python
 {
-	"name": "Python Container",
-	// "name": "TODO-APP Development",
+    "name": "B-Container",
     "dockerComposeFile": "../../docker-compose.yml", 
     "service": "backend",
     "workspaceFolder": "/workspace/backend",
     "forwardPorts": [8000],
+    "portsAttributes": {
+        "8000": {
+            "label": "FastAPI Backend",
+            "protocol": "http"
+        }
+    },
     "shutdownAction": "stopCompose",
     
-    // 開発環境コンテナに必要なツールや設定
     "customizations": {
         "vscode": {
             "extensions": [
