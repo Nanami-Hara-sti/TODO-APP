@@ -9,3 +9,9 @@ RUN npm install
 
 # ソースコードをコピー
 COPY frontend/ ./
+
+# ポート3000を公開
+EXPOSE 3000
+
+# Reactアプリを起動
+CMD ["npm", "start"]

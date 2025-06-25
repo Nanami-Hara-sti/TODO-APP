@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 
-// APIのベースURLを定数として定義
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = '';
 
 /**
  * Todoアイテム一つ分を管理するコンポーネント
@@ -11,7 +10,16 @@ const API_BASE_URL = 'http://localhost:8000';
 function formatDateTime(dt) {
   if (!dt) return '';
   const date = new Date(dt);
-  return date.toLocaleString();
+  //　日本時刻（UTC+9時間）
+  return date.toLocaleString('ja-JP', { 
+    timeZone: 'Asia/Tokyo',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  });
 }
 
 function TodoItem({ todo, onUpdate, onDelete, onError }) {

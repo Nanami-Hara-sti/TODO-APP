@@ -1,8 +1,14 @@
 {
-  "name": "F-Container",
+  "name": "F-React",
   "dockerComposeFile": ["../../docker-compose.yml"],
   "service": "frontend",
   "workspaceFolder": "/workspace/frontend",
-  "forwardPorts": [3000],
+  "forwardPorts": [8000, 3001, 3007],
+  // "portsAttributes": {
+  //   "3001": {
+  //     "label": "React Frontend",
+  //     "protocol": "http"
+  //   }
+  // },
   "shutdownAction": "none"
 }

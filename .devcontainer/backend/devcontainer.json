@@ -1,15 +1,15 @@
 {
-    "name": "B-Container",
+    "name": "B-Python",
     "dockerComposeFile": "../../docker-compose.yml", 
     "service": "backend",
     "workspaceFolder": "/workspace/backend",
-    "forwardPorts": [8000],
-    "portsAttributes": {
-        "8000": {
-            "label": "FastAPI Backend",
-            "protocol": "http"
-        }
-    },
+    "forwardPorts": [8000, 3001, 3007],
+    // "portsAttributes": {
+    //     "8000": {
+    //         "label": "FastAPI Backend",
+    //         "protocol": "http"
+    //     }
+    // },
     "shutdownAction": "stopCompose",
     
     "customizations": {

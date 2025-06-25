@@ -17,11 +17,14 @@ services:
     build:
       context: .
       dockerfile: frontend/Dockerfile
-    command: sleep infinity
+    command: ["npm", "start"]
     volumes:
       - ./frontend:/workspace/frontend
     ports:
-      - "3001:3001"
+      - "3001:3000"
+    environment:
+      - PORT=3000
+      - FAST_REFRESH=false
     depends_on:
       - backend
 
