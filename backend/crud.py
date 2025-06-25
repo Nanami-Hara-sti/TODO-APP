@@ -1,53 +1,39 @@
-import datetime as DateTime
-from typing import List, Optional
-from schemas import TodoCreate, Todo, TodoUpdate
+from sqlalchemy.orm import Session
+from sql_app import models
+from schemas import TodoCreate, Todo
 
-# メモリ上のDB（本来はDB操作を記述）
-fake_db: List[Todo] = []
-id_counter = 0
-
-def create_todo(todo: TodoCreate) -> Todo:
-    global id_counter
-    id_counter += 1
-    now = DateTime.datetime.now()
-    new_todo = Todo(
-        id=id_counter,
+def create_todo(db: Session, todo: TodoCreate) -> models.Todo:
+    db_todo = models.Todo(
         title=todo.title,
         description=todo.description,
-        status=todo.status,
-        created_at=now,
-        updated_at=now,
+        status=todo.status
     )
-    fake_db.append(new_todo)
-    return new_todo
+    db.add(db_todo)
+    db.commit()
+    db.refresh(db_todo)
+    return db_todo
 
-def read_todos() -> List[Todo]:
-    return fake_db
+def read_todos(db: Session):
+    return db.query(models.Todo).all()
 
-def read_todo(todo_id: int) -> Optional[Todo]:
-    for todo in fake_db:
-        if todo.id == todo_id:
-            return todo
-    return None
+def read_todo(db: Session, todo_id: int):
+    return db.query(models.Todo).filter(models.Todo.id == todo_id).first()
 
-def update_todo(todo_id: int, todo: TodoCreate) -> Optional[Todo]:
-    for idx, t in enumerate(fake_db):
-        if t.id == todo_id:
-            updated_todo = Todo(
-                id=todo_id,
-                title=todo.title,
-                description=todo.description,
-                status=todo.status,
-                created_at=t.created_at,
-                updated_at=DateTime.datetime.now(),
-            )
-            fake_db[idx] = updated_todo
-            return updated_todo
-    return None
+def update_todo(db: Session, todo_id: int, todo: TodoCreate):
+    db_todo = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
+    if db_todo is None:
+        return None
+    db_todo.title = todo.title
+    db_todo.description = todo.description
+    db_todo.status = todo.status
+    db.commit()
+    db.refresh(db_todo)
+    return db_todo
 
-def delete_todo(todo_id: int) -> bool:
-    for idx, t in enumerate(fake_db):
-        if t.id == todo_id:
-            del fake_db[idx]
-            return True
-    return False
+def delete_todo(db: Session, todo_id: int):
+    db_todo = db.query(models.Todo).filter(models.Todo.id == todo_id).first()
+    if db_todo is None:
+        return False
+    db.delete(db_todo)
+    db.commit()
+    return True
