@@ -8,3 +8,8 @@ pymysql
 pydantic
 
 python-dotenv
+
+# テスト用の依存関係
+pytest
+pytest-asyncio
+httpx
