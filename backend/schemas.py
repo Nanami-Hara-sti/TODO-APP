@@ -22,3 +22,7 @@ class Todo(TodoBase):
 
     class Config:
         from_attributes = True
+        # JSON serialization時にISO 8601形式（UTC）で出力
+        json_encoders = {
+            datetime.datetime: lambda dt: dt.isoformat() + 'Z' if dt else None
+        }

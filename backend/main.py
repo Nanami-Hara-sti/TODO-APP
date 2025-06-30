@@ -28,10 +28,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-@app.get("/")
-async def index():
-    return {"message": "Welcome to the Todo API"}
-
 # Create
 @app.post("/todos", response_model=schemas.Todo)
 def create_todo(todo: schemas.TodoCreate, db: Session = Depends(get_db)):

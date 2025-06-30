@@ -9,17 +9,23 @@ const API_BASE_URL = '';
  */
 function formatDateTime(dt) {
   if (!dt) return '';
-  const date = new Date(dt);
-  //　日本時刻（UTC+9時間）
-  return date.toLocaleString('ja-JP', { 
-    timeZone: 'Asia/Tokyo',
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    second: '2-digit'
-  });
+  
+  try {
+    const date = new Date(dt);
+    
+    // 無効な日付の場合は元の文字列を返す
+    if (isNaN(date.getTime())) return dt;
+    
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    
+    return `${month}/${day} ${hours}:${minutes}`;
+  } catch (error) {
+    console.error('日時フォーマットエラー:', error);
+    return dt; // エラーの場合は元の値を返す
+  }
 }
 
 function TodoItem({ todo, onUpdate, onDelete, onError }) {
