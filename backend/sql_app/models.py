@@ -2,6 +2,7 @@
 from sqlalchemy import Column, Integer, String, Text, DateTime
 from sqlalchemy.sql import func
 from sql_app.database import Base
+import datetime
 
 class Todo(Base):
     __tablename__ = "todos"
@@ -10,8 +11,9 @@ class Todo(Base):
     title = Column(String(255), nullable=False)
     description = Column(Text, nullable=True)
     status = Column(String(20), nullable=False, default="未着手")
-    created_at = Column(DateTime, server_default=func.now(), nullable=False)
-    updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now(), nullable=False)
+    # UTC時刻で保存するように明示的に設定
+    created_at = Column(DateTime, default=datetime.datetime.utcnow, nullable=False)
+    updated_at = Column(DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow, nullable=False)
 
     def __repr__(self):
         return f"<Todo(id={self.id}, title='{self.title}', status='{self.status}')>"

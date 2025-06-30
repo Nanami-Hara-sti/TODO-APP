@@ -11,17 +11,29 @@ function formatDateTime(dt) {
   if (!dt) return '';
   
   try {
-    const date = new Date(dt);
+    // ISO 8601形式（UTC）の日時文字列を解析
+    let date;
+    if (dt.endsWith('Z')) {
+      // 既にUTC形式の場合
+      date = new Date(dt);
+    } else {
+      // UTC形式でない場合はUTCとして扱う
+      date = new Date(dt + 'Z');
+    }
     
     // 無効な日付の場合は元の文字列を返す
     if (isNaN(date.getTime())) return dt;
     
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
+    // Intl.DateTimeFormatを使用して日本時刻（JST）で表示
+    return new Intl.DateTimeFormat('ja-JP', {
+      timeZone: 'Asia/Tokyo',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    }).format(date);
     
-    return `${month}/${day} ${hours}:${minutes}`;
   } catch (error) {
     console.error('日時フォーマットエラー:', error);
     return dt; // エラーの場合は元の値を返す
