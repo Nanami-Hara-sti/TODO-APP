@@ -13,3 +13,6 @@ python-dotenv
 pytest
 pytest-asyncio
 httpx
+echo "pytest" >> requirements.txt
+echo "pytest-asyncio" >> requirements.txt
+echo "httpx" >> requirements.txt
