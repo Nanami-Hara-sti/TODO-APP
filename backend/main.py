@@ -15,8 +15,10 @@ app = FastAPI()
 # CORSを許可するオリジン
 origins = [
     "http://localhost:3000",
-    "http://localhost:3001",
-    "http://localhost:3002"
+    "http://localhost:3001", 
+    "http://localhost:3002",
+    "https://*.azurestaticapps.net",  # Azure Static Web Apps
+    "https://*.azurewebsites.net",    # Azure App Service
 ]
 
 # CORSミドルウェアを追加

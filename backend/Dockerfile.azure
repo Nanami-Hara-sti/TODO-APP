@@ -1,0 +1,25 @@
+# Azure Container Instances用のDockerfile
+FROM python:3.10-slim
+
+WORKDIR /app
+
+# システムの依存関係をインストール
+RUN apt-get update && apt-get install -y \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Python依存関係をインストール
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# アプリケーションコードをコピー
+COPY . .
+
+# データベースの初期化
+RUN python -c "from sql_app.database import engine; from sql_app import models; models.Base.metadata.create_all(bind=engine)"
+
+# ポート8000を公開
+EXPOSE 8000
+
+# アプリケーションを起動
+CMD ["gunicorn", "main:app", "-w", "4", "-k", "uvicorn.workers.UvicornWorker", "--bind", "0.0.0.0:8000"]

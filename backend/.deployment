@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "defaultProvider": "azure",
+  "providers": {
+    "azure": []
+  }
+}

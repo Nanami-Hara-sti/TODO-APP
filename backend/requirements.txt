@@ -13,6 +13,9 @@ python-dotenv
 pytest
 pytest-asyncio
 httpx
+
+# Azure App Service用
+gunicorn
 echo "pytest" >> requirements.txt
 echo "pytest-asyncio" >> requirements.txt
 echo "httpx" >> requirements.txt
